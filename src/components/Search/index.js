@@ -75,8 +75,8 @@ const Search = ({history, setHistory, setTerm, term}) => {
 
             <ResultsFound>About {hits} Results</ResultsFound>
             {/* Maps results and filters if no URL exist */}
-            {loading ? "Loading..." : results.filter((item) => item.url != null).map((item) =>  (    
-            <Article key={item.object_id}>
+            {loading ? "Loading..." : results.filter((item) => item.url != null).map((item) =>  (   
+            <Article key={item.objectID}>
             <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a>
             <h4>By: {item.author}</h4>
             <p>Posted: {item.created_at}</p>
@@ -158,6 +158,6 @@ const Pagination = styled.ul`
   span {
       text-decoration:none;
       color: blue;
-      cusor: pointer;
+      cursor: pointer;
   }
 `
