@@ -28,7 +28,7 @@ const Search = ({history, setHistory, setTerm, term}) => {
     //Returns if term is blank
     if (term === "") {return}
     isLoading(true);
-    const res = await axios.get(`http://hn.algolia.com/api/v1/search_by_date?tags=story&query=${term}&page=${page}`)
+    const res = await axios.get(`https://hn.algolia.com/api/v1/search_by_date?tags=story&query=${term}&page=${page}`)
      setResults(res.data.hits);
      setPages(res.data.nbPages);
      setHits (res.data.nbHits);
