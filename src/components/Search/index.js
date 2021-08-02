@@ -35,6 +35,7 @@ const Search = ({history, setHistory, setTerm, term}) => {
     isLoading(false);
     }
     querySearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[search, page]);
 
     // Create pagination 
@@ -74,9 +75,9 @@ const Search = ({history, setHistory, setTerm, term}) => {
 
             <ResultsFound>About {hits} Results</ResultsFound>
             {/* Maps results and filters if no URL exist */}
-            {!isLoading ? "Is Loading..." : results.filter((item) => item.url != null).map((item) =>  (    
+            {loading ? "Loading..." : results.filter((item) => item.url != null).map((item) =>  (    
             <Article key={item.object_id}>
-            <a href={item.url} target="_blank"><h1>{item.title}</h1></a>
+            <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a>
             <h4>By: {item.author}</h4>
             <p>Posted: {item.created_at}</p>
             </Article>
@@ -84,8 +85,8 @@ const Search = ({history, setHistory, setTerm, term}) => {
             
             {/* Maps Pages */}
             <Pagination>
-            {pageNumbers.map((item) => (
-                <li><a onClick={() => paginateHandler(item)} href="#">{item}</a></li>
+            {pageNumbers.map((item, index) => (
+                <li key={item + index}><span onClick={() => paginateHandler(item)}>{item}</span></li>
             ))}
             </Pagination>
             
@@ -117,7 +118,10 @@ font-size: 8px;
 margin: 10px;
 
 a {
-    text-decoration: none
+    text-decoration:none;
+    color: blue;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 h1 {
@@ -151,8 +155,9 @@ const Pagination = styled.ul`
   li {
       padding 5px;
   }
-  a {
+  span {
       text-decoration:none;
       color: blue;
+      cusor: pointer;
   }
 `
