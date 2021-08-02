@@ -7,12 +7,12 @@ const Search = ({history, setHistory, setTerm, term}) => {
 
     const [loading, isLoading] = useState(false);
 
-    // Page number
-    const [page, setPageNumber] = useState(1);
     // Set number of pages
     const [pages, setPages] = useState();
+    // Set current page number
+    const [page, setPageNumber] = useState(1);
 
-    // Number of hits
+    // Number of hits from search
     const [hits, setHits] = useState(0);
     // Finalize query
     const [search,setSearch] = useState("")
@@ -30,16 +30,16 @@ const Search = ({history, setHistory, setTerm, term}) => {
     isLoading(true);
     const res = await axios.get(`http://hn.algolia.com/api/v1/search_by_date?tags=story&query=${term}&page=${page}`)
      setResults(res.data.hits);
-     setPages(res.data.nbPages)
-     setHits (res.data.nbHits)
+     setPages(res.data.nbPages);
+     setHits (res.data.nbHits);
     isLoading(false);
     }
     querySearch();
-},[search, page]);
+    },[search, page]);
 
     // Create pagination 
     for(let i = 1; i <= pages; i++) {
-    pageNumbers.push(i)
+    pageNumbers.push(i);
      }
 
 
@@ -55,8 +55,8 @@ const Search = ({history, setHistory, setTerm, term}) => {
         setHistory([...history, term])
     }
 
-    // Change page
-    const paginate = (number) => {
+    // Change page upon click
+    const paginateHandler = (number) => {
         setPageNumber(number)
     }
     return (
@@ -82,9 +82,10 @@ const Search = ({history, setHistory, setTerm, term}) => {
             </Article>
             ))}
             
+            {/* Maps Pages */}
             <Pagination>
             {pageNumbers.map((item) => (
-                <li><a onClick={() => paginate(item)} href="#">{item}</a></li>
+                <li><a onClick={() => paginateHandler(item)} href="#">{item}</a></li>
             ))}
             </Pagination>
             </ArticleContainer>

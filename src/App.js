@@ -7,7 +7,9 @@ import Search from './components/Search/';
 import History from './components/History';
 function App() {
 
+  //Set History
   const [history, setHistory] = useState([])  
+  //Set Search Term
   const [term, setTerm] = useState("")
   return (
     <Router>
@@ -18,7 +20,7 @@ function App() {
             <Search history={history} setHistory={setHistory} term={term} setTerm={setTerm}/>
           </Route>
           <Route path="/history">
-            <History history={history} term={term} setTerm={setTerm}/>
+            <History history={history} setTerm={setTerm}/>
           </Route>
       </Switch>
     </Router>
