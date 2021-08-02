@@ -91,8 +91,6 @@ const Search = ({history, setHistory, setTerm, term}) => {
             </Pagination>
             
             </ArticleContainer>
-
-      
         </div>
     )
 }
