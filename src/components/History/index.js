@@ -39,6 +39,8 @@ margin: 0 auto;
     color: blue;
     font-size: 16px;
     margin: 10px;
+    font-weight: bold;
+    
  }
 
 `

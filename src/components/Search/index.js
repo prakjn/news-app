@@ -11,6 +11,9 @@ const Search = ({history, setHistory, setTerm, term}) => {
     const [page, setPageNumber] = useState(1);
     // Set number of pages
     const [pages, setPages] = useState();
+
+    // Number of hits
+    const [hits, setHits] = useState(0);
     // Finalize query
     const [search,setSearch] = useState("")
     // Set search to get results
@@ -28,6 +31,7 @@ const Search = ({history, setHistory, setTerm, term}) => {
     const res = await axios.get(`http://hn.algolia.com/api/v1/search_by_date?tags=story&query=${term}&page=${page}`)
      setResults(res.data.hits);
      setPages(res.data.nbPages)
+     setHits (res.data.nbHits)
     isLoading(false);
     }
     querySearch();
@@ -67,7 +71,8 @@ const Search = ({history, setHistory, setTerm, term}) => {
             
 
             <ArticleContainer>
-            
+
+            <ResultsFound>About {hits} Results</ResultsFound>
             {/* Maps results and filters if no URL exist */}
             {!isLoading ? "Is Loading..." : results.filter((item) => item.url != null).map((item) =>  (    
             <Article key={item.object_id}>
@@ -91,6 +96,10 @@ const Search = ({history, setHistory, setTerm, term}) => {
 
 export default Search
 
+const ResultsFound = styled.h2`
+font-size: 12px;
+margin: 10px;
+`
 
 const ArticleContainer = styled.div`
 display: flex;
