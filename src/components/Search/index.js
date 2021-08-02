@@ -88,6 +88,7 @@ const Search = ({history, setHistory, setTerm, term}) => {
                 <li><a onClick={() => paginateHandler(item)} href="#">{item}</a></li>
             ))}
             </Pagination>
+            
             </ArticleContainer>
 
       
