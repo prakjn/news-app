@@ -1,52 +1,57 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
 import styled from 'styled-components';
-const Search = ({history, setHistory}) => {
+const Search = ({history, setHistory, setTerm, term}) => {
 
 
 
     const [loading, isLoading] = useState(false);
-    // user query
-    const [term, setTerm] = useState("")
+
     // Page number
     const [page, setPageNumber] = useState(1);
+    // Set number of pages
     const [pages, setPages] = useState();
-    // finalized query
+    // Finalize query
     const [search,setSearch] = useState("")
-    // set search to get results
+    // Set search to get results
     const [results, setResults] = useState([])
+    // Array for pagination
     const pageNumbers = []
 
-    //Fetch query from search term
     useEffect(() => {
+
+    //Fetch Hacker News API
     const querySearch = async () => {
+    //Returns if term is blank
+    if (term === "") {return}
     isLoading(true);
-    const res = await axios.get(`http://hn.algolia.com/api/v1/search_by_date?query=${term}&hitsPerPage=15&page=${page}`)
+    const res = await axios.get(`http://hn.algolia.com/api/v1/search_by_date?tags=story&query=${term}&page=${page}`)
      setResults(res.data.hits);
      setPages(res.data.nbPages)
-     console.log(res.data)
     isLoading(false);
     }
     querySearch();
 },[search, page]);
 
-    // create pagination
+    // Create pagination 
     for(let i = 1; i <= pages; i++) {
     pageNumbers.push(i)
      }
 
 
-    // handles form submit
-    // when submmited history captures search term and sets page number
+    // Handles form submit
+    // When submmited history captures search term and sets page number
     const handleSubmit = (e) => {
         e.preventDefault();
         setSearch(term)
         setPageNumber(1);
+        //Returns if term is blank
         if (term === "") {return}
+        // Set History
         setHistory([...history, term])
     }
 
-    // change page
+    // Change page
     const paginate = (number) => {
         setPageNumber(number)
     }
@@ -62,10 +67,12 @@ const Search = ({history, setHistory}) => {
             
 
             <ArticleContainer>
-            {!isLoading ? "Is Loading..." : results.map((item) =>  (    
-            <Article>
-            <a key={item.story_title} href={item.story_url} target="_blank"><h1>{item.story_title}</h1></a>
-            <h4>Author: {item.author}</h4>
+            
+            {/* Maps results and filters if no URL exist */}
+            {!isLoading ? "Is Loading..." : results.filter((item) => item.url != null).map((item) =>  (    
+            <Article key={item.object_id}>
+            <a href={item.url} target="_blank"><h1>{item.title}</h1></a>
+            <h4>By: {item.author}</h4>
             <p>Posted: {item.created_at}</p>
             </Article>
             ))}

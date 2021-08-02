@@ -1,14 +1,44 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import styled from 'styled-components';
+const History = ({history, setTerm, term}) => {
 
-const History = ({history}) => {
+    
+
     return (
         <div>
-            <h2>Past Search terms:</h2>
-            {history.map((item) => (
-                <h2 key={item}>{item}</h2>
+            <SearchHistoryTitle>Search History</SearchHistoryTitle>
+            <HistoryContainer>
+            {history.map((item, index) => (
+                <Link to="/search" key={item + index} onClick={(e) => setTerm(e.target.innerText)}>{item}</Link>
             ))}
+            </HistoryContainer>
         </div>
     )
 }
 
 export default History
+
+
+const SearchHistoryTitle = styled.h1`
+display: flex;
+align-items: center;
+justify-content: center;
+
+`
+
+const HistoryContainer = styled.div`
+display: flex;
+flex-direction: column;
+padding: 10px;
+background-color: #e0e0e0;
+width: 60%;
+margin: 0 auto;
+ a{
+    text-decoration:none;
+    color: blue;
+    font-size: 16px;
+    margin: 10px;
+ }
+
+`
